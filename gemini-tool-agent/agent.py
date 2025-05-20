@@ -137,33 +137,23 @@ class Agent:
             return {"error": f"Tool '{tool_name}' not found"}
 
     def generate_response(self, prompt):
-        # Check if prompt is too large and might exceed token limits
         if len(prompt) > 10000:  # Approximate threshold for long prompts
-            # Truncate or summarize the prompt to avoid token limit issues
             print("Warning: Large prompt detected, optimizing for memory efficiency")
             
-            # If the prompt contains conversation history, optimize it
             if "CONVERSATION HISTORY" in prompt:
-                # Split the prompt to isolate the conversation history
                 parts = prompt.split("CONVERSATION HISTORY:")
                 before_history = parts[0]
                 after_parts = parts[1].split("\n\n", 1)
                 
-                # Extract and optimize the history part
                 history_part = after_parts[0]
                 remaining_part = after_parts[1] if len(after_parts) > 1 else ""
                 
-                # Truncate or summarize long history entries
                 if len(history_part) > 5000:
-                    # Keep only the most recent and relevant history
                     history_lines = history_part.split("\n")
                     optimized_history = "\n".join(history_lines[-15:])  # Keep last 15 lines
                     prompt = before_history + "CONVERSATION HISTORY: " + optimized_history + "\n\n" + remaining_part
-            
-            # If the prompt contains a large direct response, truncate it
             elif "direct_response" in prompt and len(prompt) > 8000:
                 print("Optimizing large direct response in prompt")
-                # Truncate the middle of the response while keeping start and end
                 start_part = prompt[:3000]
                 end_part = prompt[-3000:]
                 prompt = start_part + "\n...[content truncated for memory efficiency]...\n" + end_part
@@ -172,5 +162,4 @@ class Agent:
             model=self.model,
             contents=prompt,
         )
-        # print("From agent: ",response.text)
         return response.text
