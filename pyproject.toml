@@ -1,6 +1,6 @@
 [project]
 name = "gemini-tool-agent"
-version = "0.1.1"
+version = "0.1.3"
 description = "A tool-aware agent powered by Gemini for structured query handling"
 authors = [
   { name="Paul Fruitful", email="fruitful2007@outlook.com" }

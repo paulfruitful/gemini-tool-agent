@@ -130,16 +130,13 @@ class Agent:
             
         response = self.generate_response(prompt)
         parsed_response = self.extract_json(response)
-        print("Tool Call",parsed_response)
             
         return parsed_response
      else:
             return {"error": f"Tool '{tool_name}' not found"}
 
     def generate_response(self, prompt):
-        if len(prompt) > 10000:  # Approximate threshold for long prompts
-            print("Warning: Large prompt detected, optimizing for memory efficiency")
-            
+        if len(prompt) > 10000:      
             if "CONVERSATION HISTORY" in prompt:
                 parts = prompt.split("CONVERSATION HISTORY:")
                 before_history = parts[0]
@@ -153,7 +150,6 @@ class Agent:
                     optimized_history = "\n".join(history_lines[-15:])  # Keep last 15 lines
                     prompt = before_history + "CONVERSATION HISTORY: " + optimized_history + "\n\n" + remaining_part
             elif "direct_response" in prompt and len(prompt) > 8000:
-                print("Optimizing large direct response in prompt")
                 start_part = prompt[:3000]
                 end_part = prompt[-3000:]
                 prompt = start_part + "\n...[content truncated for memory efficiency]...\n" + end_part
