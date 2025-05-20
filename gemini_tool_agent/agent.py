@@ -53,9 +53,7 @@ class Agent:
         response_text = self.generate_response(prompt)
         parsed_response = self.extract_json(response_text)
         
-        # If a direct response is needed, generate it and add to the response dict
         if parsed_response.get("needs_direct_response", False):
-            # Include conversation history in the direct response prompt
             direct_prompt = f"""
             You are a helpful assistant responding to the following query:
             
@@ -130,13 +128,16 @@ class Agent:
             
         response = self.generate_response(prompt)
         parsed_response = self.extract_json(response)
+        print("Tool Call",parsed_response)
             
         return parsed_response
      else:
             return {"error": f"Tool '{tool_name}' not found"}
 
     def generate_response(self, prompt):
-        if len(prompt) > 10000:      
+        if len(prompt) > 10000:  
+            print("Warning: Large prompt detected, optimizing for memory efficiency")
+            
             if "CONVERSATION HISTORY" in prompt:
                 parts = prompt.split("CONVERSATION HISTORY:")
                 before_history = parts[0]
