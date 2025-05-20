@@ -1,0 +1,21 @@
+[project]
+name = "gemini-tool-agent"
+version = "0.1.0"
+description = "A tool-aware agent powered by Gemini for structured query handling"
+authors = [
+  { name="Paul Fruitful", email="fruitful2007@outlook.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = [
+  "google-generativeai>=0.3.2"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+
+where = ["."]
