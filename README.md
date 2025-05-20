@@ -64,17 +64,7 @@ The agent returns a structured response in JSON format:
   "direct_response": "AI agents are software entities that can perform tasks autonomously..."
 }
 ```
-
-## Advanced Usage
-
-You can access the conversation history:
-
-```python
-# Get the conversation history
-history = agent.history
-```
-
-1### Tool Parameter Extraction
+### Tool Parameter Extraction
 
 After identifying that a tool needs to be used, you can extract parameters from the conversation:
 
@@ -90,6 +80,7 @@ if response.get("needs_tool", False):
     # Now you can use the extracted parameters to execute the tool
     print(tool_params)
     # Output: {'tool_name': 'save_note', 'input': {'title': 'AI Agents', 'content': '...'}}  
+    #You can then execute the tool with the extracted parameters
 ```
 
 ### Optimized Response Generation
@@ -103,6 +94,17 @@ response_text = agent.generate_response(large_prompt)
 # The method automatically optimizes prompts over 10,000 characters by:
 # - Trimming conversation history to the most recent 15 lines when needed
 # - Truncating large direct responses while preserving start and end content
+```
+
+
+
+## Advanced Usage
+
+You can access the conversation history:
+
+```python
+# Get the conversation history
+history = agent.history
 ```
 
 ## License
